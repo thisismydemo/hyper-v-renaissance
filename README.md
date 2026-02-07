@@ -3,7 +3,7 @@
 
 This repository contains all scripts, templates, diagrams, checklists, and supporting resources for the blog series:
 
-**The Hyper-V Renaissance: PowerShell Returned to Its Throne**
+
 
 **Purpose:**
 To provide IT professionals, architects, and decision-makers with practical, production-ready assets that accompany each post in the [Hyper-V Renaissance blog series](https://thisismydemo.github.io/tags/the-hyper-v-renaissance/).
