@@ -1,0 +1,77 @@
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,Notes
+# ============================================================
+# Hyper-V Renaissance - Driver Compatibility Matrix
+# Post 4: Reusing Your Existing VMware Hosts
+# Last Updated: April 2026
+# Repository: https://github.com/thisismydemo/hyper-v-renaissance
+# ============================================================
+# KEY:
+#   Support Level: INBOX (Windows built-in), VENDOR (download from OEM), LIMITED, UNSUPPORTED
+#   RDMA: iWARP / RoCEv2 / None
+# ============================================================
+
+# ----- NETWORK ADAPTERS -----
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,VMware Driver Works,Notes
+Intel,NIC,E810-C (100GbE),Supported,Inbox + Vendor (better features),RoCEv2 / iWARP,No - need Intel WS2025 driver,Most common in modern servers. Download Intel WS2025 driver package for RDMA/SR-IOV.
+Intel,NIC,X710 / XXV710 (10/25GbE),Supported,Inbox + Vendor,iWARP,No - need Intel WS2025 driver,Excellent Hyper-V support. Vendor driver required for RDMA.
+Intel,NIC,X550 / X540 (10GbE),Supported,Inbox,None,Partial,Good basic connectivity. No RDMA support.
+Intel,NIC,I350 / I210 (1GbE),Supported,Inbox,None,Partial,Works well for management NICs. Too slow for live migration/storage.
+Mellanox/NVIDIA,NIC,ConnectX-6 Dx (25/100GbE),Supported,WinOF-2 (required),RoCEv2,No - need NVIDIA WinOF-2,Download WinOF-2 from NVIDIA for full RDMA functionality.
+Mellanox/NVIDIA,NIC,ConnectX-5 (25/100GbE),Supported,WinOF-2 (required),RoCEv2,No - need NVIDIA WinOF-2,Widely deployed. Download WinOF-2. Excellent Hyper-V/SMB Direct support.
+Mellanox/NVIDIA,NIC,ConnectX-4 (10/25/40GbE),Supported,WinOF-2,RoCEv2,No - need NVIDIA WinOF-2,Older generation but still supported.
+Broadcom,NIC,P2100G / P225P (25/100GbE),Supported,Inbox + Vendor,RoCEv2,No - need Broadcom WS2025 driver,Good Windows support. Vendor driver for RDMA.
+Broadcom,NIC,BCM57416 / BCM57414 (10/25GbE),Supported,Inbox + Vendor,iWARP,Partial,Common in HPE ProLiant. Vendor driver from HPE or Broadcom.
+Marvell/QLogic,NIC,FastLinQ QL41000 / QL45000 (10/25GbE),Supported,Inbox + Vendor,RoCEv2 / iWARP,No - need Marvell driver,Good Windows support. Download from Marvell support portal.
+Chelsio,NIC,T6 series (10/25GbE),Supported,Inbox + Chelsio Unified Wire,iWARP,No - need Chelsio driver,iWARP is driver-based — no DCB switch config needed. Good for environments without PFC-capable switches.
+Cisco,NIC,VIC 1400/1500 series (10/25/40GbE),Supported,Cisco WS driver required,None unless specific config,No - VMware-specific drivers,Cisco VICs have native Windows drivers but require firmware/driver download from Cisco. Verify your exact VIC model.
+
+# ----- FIBRE CHANNEL HBAs -----
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,VMware Driver Works,Notes
+Broadcom/Emulex,FC HBA,LPe35000 (32Gb FC),Supported,OneCommand Manager / Inbox,N/A (FC),No - need Broadcom WS driver,Download Emulex OneCommand Manager. Set appropriate login timeout values.
+Broadcom/Emulex,FC HBA,LPe36000 (64Gb FC),Supported,OneCommand Manager / Inbox,N/A (FC),No - need Broadcom WS driver,Latest generation. Full Windows Server 2025 support.
+Broadcom/Emulex,FC HBA,LPe31000/32000 (16/32Gb FC),Supported,OneCommand Manager / Inbox,N/A (FC),No - need Broadcom WS driver,Extremely common in enterprise. Excellent Windows support.
+Marvell/QLogic,FC HBA,QLE2770 (32Gb FC),Supported,QConvergeConsole + Inbox,N/A (FC),No - need Marvell/QLogic driver,Download QConvergeConsole for management and optimal timeout values.
+Marvell/QLogic,FC HBA,QLE2870 (64Gb FC),Supported,QConvergeConsole + Inbox,N/A (FC),No - need Marvell/QLogic driver,Latest generation QLogic. Full Windows Server 2025 support.
+Marvell/QLogic,FC HBA,QLE2690/2740 (16/32Gb FC),Supported,QConvergeConsole + Inbox,N/A (FC),No - need Marvell/QLogic driver,Very common. Solid Windows support history.
+
+# ----- STORAGE CONTROLLERS -----
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,VMware Driver Works,Notes
+Dell,RAID,PERC H755 / H755N,Supported,Inbox (storport),N/A,No,Standard inbox driver works. Dell OpenManage for advanced management/diagnostics.
+Dell,RAID,PERC H355 / H350,Supported,Inbox (storport),N/A,No,Entry-level PERC. Fully supported with inbox driver.
+Dell,Boot,BOSS-S2 (Boot Optimized Storage),Supported,Inbox,N/A,No,Used for OS boot drives. Fully supported. Not for VM storage.
+HPE,RAID,Smart Array P816i-a Gen10+,Supported,Inbox + HPE SSA,N/A,No,Inbox driver works. HPE Smart Storage Administrator for advanced management.
+HPE,RAID,Smart Array P408i-a / P408i-p,Supported,Inbox + HPE SSA,N/A,No,Very common in HPE ProLiant. Excellent Windows support.
+HPE,Boot,NS204i-p (NVMe Boot Controller),Supported,Inbox,N/A,No,HPE proprietary NVMe boot device. Fully supported.
+Lenovo,RAID,ThinkSystem RAID 930-8i / 930-16i,Supported,Inbox,N/A,No,Broadcom MegaRAID-based. Inbox driver works. Vendor driver for StorCLI.
+Lenovo,RAID,ThinkSystem RAID 940-8i / 940-8e,Supported,Inbox,N/A,No,Latest generation. Full Windows Server 2025 support.
+Broadcom/LSI,RAID,MegaRAID 9500 series,Supported,Inbox + StorCLI,N/A,No,Inbox driver sufficient for operation. Download StorCLI for management.
+Broadcom/LSI,HBA,9400-16i / 9500-16i (IT mode),Supported,Inbox (stornvme / storport),N/A,No,Used for HBA-mode (no RAID). Works with Windows MPIO for iSCSI/MPIO scenarios.
+
+# ----- GPU (for DDA/GPU-P) -----
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,VMware Driver Works,Notes
+NVIDIA,GPU,A30 / A40 / A100 (Data Center),Supported,NVIDIA Data Center driver,N/A,No - need NVIDIA WS driver,GPU-P (partitioning) supported. DDA also supported. Download from NVIDIA NGC.
+NVIDIA,GPU,RTX series (enterprise),Supported,NVIDIA driver,N/A,No - need NVIDIA WS driver,GPU-P supported on RTX A-series. Check GPU-P compatibility for specific model.
+NVIDIA,GPU,Tesla T4,Supported,NVIDIA driver,N/A,No - need NVIDIA WS driver,Common in older deployments. DDA supported. GPU-P supported on WS2025.
+AMD,GPU,Instinct MI series,Limited,AMD ROCm / Windows driver,N/A,No,Limited GPU-P support. Verify specific model on AMD WS2025 support matrix.
+Intel,GPU,Data Center Max (Ponte Vecchio),Supported,Intel Data Center GPU driver,N/A,No,DDA supported. GPU-P verify per model.
+
+# ----- MANAGEMENT -----
+Vendor,Category,Model/Series,Windows Server 2025 Support,Driver Source,RDMA Support,VMware Driver Works,Notes
+Dell,BMC/IPMI,iDRAC9 / iDRAC10,Supported,Firmware update from Dell,N/A,N/A (firmware),iDRAC works independently of OS. Keep firmware current. OpenManage agent for OS-level inventory.
+HPE,BMC/IPMI,iLO 5 / iLO 6,Supported,Firmware update from HPE,N/A,N/A (firmware),iLO works independently. HPE Agentless Management Service (AMS) for OS integration.
+Lenovo,BMC/IPMI,XCC (XClarity Controller),Supported,Firmware update from Lenovo,N/A,N/A (firmware),XCC works independently. XClarity Provisioning Manager for OS deployment.
+Cisco,BMC/IPMI,CIMC (C-Series),Supported,Firmware update from Cisco,N/A,N/A (firmware),CIMC works independently of OS. Download Cisco UCS tools for Windows integration.
+
+# ============================================================
+# DRIVER DOWNLOAD REFERENCE URLS
+# ============================================================
+# Intel NIC drivers:       https://www.intel.com/content/www/us/en/download-center/home.html
+# NVIDIA WinOF-2:          https://network.nvidia.com/products/infiniband-drivers/windows/winof-2/
+# Broadcom/Emulex FC:      https://www.broadcom.com/support/fibre-channel-networking/
+# Marvell/QLogic FC/NIC:   https://www.marvell.com/support/
+# Broadcom NIC:            https://www.broadcom.com/support/
+# Chelsio NIC:             https://www.chelsio.com/nic/unified-wire-for-windows/
+# Dell OpenManage:         https://www.dell.com/support/kbdoc/en-us/000177252/
+# HPE Smart Storage Admin: https://support.hpe.com/connect/s/product?language=en_US&kmpmoid=1010145327
+# Windows Server Catalog:  https://www.windowsservercatalog.com/
+# ============================================================
