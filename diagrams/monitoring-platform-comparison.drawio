@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net" modified="2026-04-04T20:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Monitoring Platform Comparison" id="mon-plat-1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="960" pageHeight="520" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="Monitoring Platform Architectures — Side by Side" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#1e293b;" vertex="1" parent="1">
+          <mxGeometry x="230" y="5" width="500" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Column 1: SCOM -->
+        <mxCell id="scom-bg" value="" style="rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#bfdbfe;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="20" y="45" width="295" height="430" as="geometry"/>
+        </mxCell>
+        <mxCell id="scom-title" value="&lt;b&gt;SCOM&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#3b82f6&quot;&gt;Enterprise On-Premises&lt;/font&gt;" style="text;html=1;align=center;fontSize=14;fontColor=#1e40af;" vertex="1" parent="1">
+          <mxGeometry x="70" y="50" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s1" value="&lt;b&gt;Hyper-V Hosts&lt;/b&gt;&lt;br&gt;SCOM Agent installed" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="52" y="100" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="s2" value="&lt;b&gt;Management Server&lt;/b&gt;&lt;br&gt;Rules, monitors, discovery" style="rounded=1;whiteSpace=wrap;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="52" y="170" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="s3" value="&lt;b&gt;SQL Server&lt;/b&gt;&lt;br&gt;OpsDB + Data Warehouse" style="rounded=1;whiteSpace=wrap;fillColor=#dbeafe;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="52" y="240" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="s4" value="&lt;b&gt;Console + SSRS Reports&lt;/b&gt;&lt;br&gt;Dashboards, alerts, compliance" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="52" y="310" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="s5" value="&lt;b&gt;Email / SNMP / ITSM&lt;/b&gt;&lt;br&gt;Alert notifications" style="rounded=1;whiteSpace=wrap;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="1">
+          <mxGeometry x="52" y="380" width="230" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="s-label" value="System Center License + SQL Server" style="text;html=1;align=center;fontSize=10;fontColor=#1e40af;" vertex="1" parent="1">
+          <mxGeometry x="52" y="430" width="230" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="se1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s1" target="s2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s2" target="s3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s3" target="s4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="se4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="s4" target="s5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Column 2: Prometheus + Grafana -->
+        <mxCell id="prom-bg" value="" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#bbf7d0;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="332" y="45" width="295" height="430" as="geometry"/>
+        </mxCell>
+        <mxCell id="prom-title" value="&lt;b&gt;Prometheus + Grafana&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#22c55e&quot;&gt;Open Source On-Premises&lt;/font&gt;" style="text;html=1;align=center;fontSize=14;fontColor=#166534;" vertex="1" parent="1">
+          <mxGeometry x="382" y="50" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="p1" value="&lt;b&gt;Hyper-V Hosts&lt;/b&gt;&lt;br&gt;windows_exporter :9182" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="364" y="100" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2" value="&lt;b&gt;Prometheus Server&lt;/b&gt;&lt;br&gt;Scrape, TSDB storage, rules" style="rounded=1;whiteSpace=wrap;fillColor=#dcfce7;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="364" y="170" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3a" value="&lt;b&gt;Loki&lt;/b&gt;&lt;br&gt;Logs" style="rounded=1;whiteSpace=wrap;fillColor=#dcfce7;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="364" y="240" width="110" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3b" value="&lt;b&gt;Alertmanager&lt;/b&gt;&lt;br&gt;Routing" style="rounded=1;whiteSpace=wrap;fillColor=#dcfce7;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="484" y="240" width="110" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p4" value="&lt;b&gt;Grafana&lt;/b&gt;&lt;br&gt;Dashboards — metrics + logs" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="364" y="310" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="p5" value="&lt;b&gt;Email / Teams / PagerDuty&lt;/b&gt;&lt;br&gt;Flexible routing &amp; silencing" style="rounded=1;whiteSpace=wrap;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="1">
+          <mxGeometry x="364" y="380" width="230" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="p-label" value="Free — Open Source, Self-hosted" style="text;html=1;align=center;fontSize=10;fontColor=#166534;" vertex="1" parent="1">
+          <mxGeometry x="364" y="430" width="230" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="pe1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p1" target="p2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p2" target="p3a" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p2" target="p3b" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p3a" target="p4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="p3b" target="p5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+        <!-- Column 3: Azure Monitor -->
+        <mxCell id="az-bg" value="" style="rounded=1;whiteSpace=wrap;fillColor=#faf5ff;strokeColor=#e9d5ff;arcSize=3;" vertex="1" parent="1">
+          <mxGeometry x="644" y="45" width="295" height="430" as="geometry"/>
+        </mxCell>
+        <mxCell id="az-title" value="&lt;b&gt;Azure Monitor&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#a855f7&quot;&gt;Cloud-Hosted&lt;/font&gt;" style="text;html=1;align=center;fontSize=14;fontColor=#6b21a8;" vertex="1" parent="1">
+          <mxGeometry x="694" y="50" width="200" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="a1" value="&lt;b&gt;Hyper-V Hosts&lt;/b&gt;&lt;br&gt;Azure Arc + AMA agent" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#7c3aed;" vertex="1" parent="1">
+          <mxGeometry x="676" y="100" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="a2" value="&lt;b&gt;Data Collection Rules&lt;/b&gt;&lt;br&gt;Perf counters + event logs" style="rounded=1;whiteSpace=wrap;fillColor=#f3e8ff;strokeColor=#7c3aed;" vertex="1" parent="1">
+          <mxGeometry x="676" y="170" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="a3" value="&lt;b&gt;Log Analytics Workspace&lt;/b&gt;&lt;br&gt;KQL queries, retention" style="rounded=1;whiteSpace=wrap;fillColor=#f3e8ff;strokeColor=#7c3aed;" vertex="1" parent="1">
+          <mxGeometry x="676" y="240" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="a4" value="&lt;b&gt;Workbooks + Alert Rules&lt;/b&gt;&lt;br&gt;Dashboards, metric &amp; log alerts" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#7c3aed;" vertex="1" parent="1">
+          <mxGeometry x="676" y="310" width="230" height="48" as="geometry"/>
+        </mxCell>
+        <mxCell id="a5" value="&lt;b&gt;Action Groups&lt;/b&gt;&lt;br&gt;Email, SMS, webhooks, Logic Apps" style="rounded=1;whiteSpace=wrap;fillColor=#fef3c7;strokeColor=#f59e0b;" vertex="1" parent="1">
+          <mxGeometry x="676" y="380" width="230" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="a-label" value="~$2.30/GB ingested, Azure subscription" style="text;html=1;align=center;fontSize=10;fontColor=#6b21a8;" vertex="1" parent="1">
+          <mxGeometry x="676" y="430" width="230" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ae1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a1" target="a2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ae2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a2" target="a3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ae3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a3" target="a4" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="ae4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="a4" target="a5" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

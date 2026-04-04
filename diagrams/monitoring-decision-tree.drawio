@@ -1,0 +1,86 @@
+<mxfile host="app.diagrams.net" modified="2026-04-04T20:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Monitoring Decision Tree" id="mon-dt-1">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="820" pageHeight="580" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Monitoring Platform Decision Tree" style="text;html=1;align=center;fontSize=18;fontStyle=1;fontColor=#1e293b;" vertex="1" parent="1">
+          <mxGeometry x="210" y="5" width="400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="start" value="How many Hyper-V hosts?" style="ellipse;whiteSpace=wrap;fillColor=#1e293b;fontColor=#ffffff;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="50" width="200" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- Small -->
+        <mxCell id="small" value="&lt;b&gt;Prometheus + Grafana&lt;/b&gt;&lt;br&gt;Free, lightweight, effective" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="small-alt" value="&lt;b&gt;PowerShell Scripts&lt;/b&gt;&lt;br&gt;Scheduled health checks (free)" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="218" width="220" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Mid question -->
+        <mxCell id="mid-q" value="Team culture?" style="ellipse;whiteSpace=wrap;fillColor=#475569;fontColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="140" width="240" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- Mid answers -->
+        <mxCell id="mid-prom" value="&lt;b&gt;Prometheus + Grafana&lt;/b&gt;&lt;br&gt;Open source, self-hosted" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="180" y="230" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="mid-scom" value="&lt;b&gt;SCOM&lt;/b&gt;&lt;br&gt;Integrated with System Center" style="rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="440" y="230" width="200" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Large question -->
+        <mxCell id="large-q" value="Existing investment?" style="ellipse;whiteSpace=wrap;fillColor=#475569;fontColor=#ffffff;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="140" width="210" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="large-prom" value="&lt;b&gt;Prometheus&lt;/b&gt;&lt;br&gt;+ Thanos at scale" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="660" y="230" width="140" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Azure question -->
+        <mxCell id="az-q" value="Already invested in Azure?" style="ellipse;whiteSpace=wrap;fillColor=#fef3c7;strokeColor=#f59e0b;fontSize=12;fontStyle=1;fontColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="160" y="320" width="500" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="az-no" value="Stay on-prem — SCOM or Prometheus" style="rounded=1;whiteSpace=wrap;fillColor=#f1f5f9;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="100" y="395" width="240" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="az-yes" value="&lt;b&gt;Add Azure Monitor&lt;/b&gt;&lt;br&gt;Alongside on-prem solution" style="rounded=1;whiteSpace=wrap;fillColor=#faf5ff;strokeColor=#7c3aed;" vertex="1" parent="1">
+          <mxGeometry x="480" y="395" width="260" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- Compliance question -->
+        <mxCell id="comp-q" value="Need compliance audit trails &amp; reporting?" style="ellipse;whiteSpace=wrap;fillColor=#fef3c7;strokeColor=#f59e0b;fontSize=12;fontStyle=1;fontColor=#92400e;" vertex="1" parent="1">
+          <mxGeometry x="180" y="465" width="460" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="comp-no" value="Any platform works" style="rounded=1;whiteSpace=wrap;fillColor=#f1f5f9;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="100" y="535" width="240" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="comp-yes" value="&lt;b&gt;SCOM (SSRS reporting)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;" vertex="1" parent="1">
+          <mxGeometry x="480" y="535" width="260" height="36" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e-s1" value="&lt; 5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start" target="small" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-s2" value="5–20" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start" target="mid-q" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-s3" value="20+" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start" target="large-q" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-m1" value="DevOps" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="mid-q" target="mid-prom" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-m2" value="Windows" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="mid-q" target="mid-scom" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-l1" value="System Center" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="large-q" target="mid-scom" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-l2" value="Open source" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="large-q" target="large-prom" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-a1" value="No" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="az-q" target="az-no" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-a2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="az-q" target="az-yes" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-c1" value="No" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="comp-q" target="comp-no" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e-c2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="comp-q" target="comp-yes" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
