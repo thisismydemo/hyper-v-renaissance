@@ -1,0 +1,41 @@
+<mxfile host="app.diagrams.net" modified="2026-04-04T22:30:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="WAC vMode Architecture" id="vmode-arch-1">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="780" pageHeight="420">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="WAC Virtualization Mode (vMode) — Architecture" style="text;html=1;align=center;fontSize=17;fontStyle=1;fontColor=#1e293b;" vertex="1" parent="1">
+          <mxGeometry x="190" y="5" width="400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="browsers" value="&lt;b&gt;Admin Browsers&lt;/b&gt;&lt;br&gt;HTTPS (any device)" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="140" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="appliance" value="&lt;b&gt;vMode Management Server&lt;/b&gt;&lt;br&gt;Dedicated server (not on Hyper-V host)" style="rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="220" y="40" width="280" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="gateway" value="&lt;b&gt;Web Gateway&lt;/b&gt;&lt;br&gt;Auth &amp; routing" style="rounded=1;whiteSpace=wrap;fillColor=#dbeafe;strokeColor=#93c5fd;" vertex="1" parent="1">
+          <mxGeometry x="235" y="85" width="120" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="postgres" value="&lt;b&gt;PostgreSQL&lt;/b&gt;&lt;br&gt;Inventory DB" style="rounded=1;whiteSpace=wrap;fillColor=#dbeafe;strokeColor=#93c5fd;" vertex="1" parent="1">
+          <mxGeometry x="370" y="85" width="120" height="38" as="geometry"/>
+        </mxCell>
+        <mxCell id="scale" value="&lt;b&gt;Up to 1,000 hosts&lt;br&gt;Up to 25,000 VMs&lt;/b&gt;&lt;br&gt;No additional licensing cost" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;" vertex="1" parent="1">
+          <mxGeometry x="540" y="50" width="220" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="host1" value="&lt;b&gt;Hyper-V Host 1 (Cluster A)&lt;/b&gt;&lt;br&gt;Agent + VMs + Storage" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="30" y="220" width="210" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="host2" value="&lt;b&gt;Hyper-V Host 2 (Cluster A)&lt;/b&gt;&lt;br&gt;Agent + VMs + Storage" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="255" y="220" width="210" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="host3" value="&lt;b&gt;Standalone Host 3&lt;/b&gt;&lt;br&gt;Agent + VMs + Storage" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="480" y="220" width="210" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="HTTPS" edge="1" source="browsers" target="gateway" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="TLS 1.3 :6516" edge="1" source="appliance" target="host1" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="TLS 1.3 :6516" edge="1" source="appliance" target="host2" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" value="TLS 1.3 :6516" edge="1" source="appliance" target="host3" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
