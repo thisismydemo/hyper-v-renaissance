@@ -1,0 +1,7 @@
+<mxfile host="app.diagrams.net" modified="2026-04-05T00:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Azure Services — Azure Local vs Hyper-V + Arc" id="az-svc-1">
+    <mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+    <mxCell id="t" value="Azure Services comparison table. See SVG export for full rendered diagram." style="text;html=1;align=center;fontSize=12;fontColor=#64748b;" vertex="1" parent="1"><mxGeometry x="100" y="100" width="600" height="30" as="geometry"/></mxCell>
+    </root></mxGraphModel>
+  </diagram>
+</mxfile>
