@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" modified="2026-04-04T21:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="Security Layer Architecture" id="sec-layer-1">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="720" pageHeight="560" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Hyper-V Security — Defense in Depth" style="text;html=1;align=center;fontSize=17;fontStyle=1;fontColor=#1e293b;" vertex="1" parent="1">
+          <mxGeometry x="160" y="5" width="400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Layer 6: Hardware -->
+        <mxCell id="hw" value="&lt;b&gt;HARDWARE&lt;/b&gt; — UEFI Secure Boot • TPM 2.0 • Measured Boot" style="rounded=1;whiteSpace=wrap;fillColor=#fef2f2;strokeColor=#fca5a5;strokeWidth=2;verticalAlign=top;fontSize=12;fontColor=#991b1b;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="680" height="480" as="geometry"/>
+        </mxCell>
+
+        <!-- Layer 5: Hypervisor -->
+        <mxCell id="hyp" value="&lt;b&gt;HYPERVISOR (VBS)&lt;/b&gt; — Virtual Secure Mode • HVCI • Secure Kernel" style="rounded=1;whiteSpace=wrap;fillColor=#fef9c3;strokeColor=#facc15;strokeWidth=1.8;verticalAlign=top;fontSize=12;fontColor=#854d0e;" vertex="1" parent="1">
+          <mxGeometry x="45" y="90" width="630" height="420" as="geometry"/>
+        </mxCell>
+
+        <!-- Layer 4: Management OS -->
+        <mxCell id="mgmt" value="&lt;b&gt;MANAGEMENT OS&lt;/b&gt; — Credential Guard • Defender • Firewall • Audit" style="rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#93c5fd;strokeWidth=1.8;verticalAlign=top;fontSize=12;fontColor=#1e40af;" vertex="1" parent="1">
+          <mxGeometry x="70" y="120" width="580" height="360" as="geometry"/>
+        </mxCell>
+
+        <!-- Layer 3: Cluster -->
+        <mxCell id="clust" value="&lt;b&gt;CLUSTER&lt;/b&gt; — SMB Encryption • BitLocker on CSV • Network Roles • ACLs" style="rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#86efac;strokeWidth=1.8;verticalAlign=top;fontSize=12;fontColor=#166534;" vertex="1" parent="1">
+          <mxGeometry x="95" y="150" width="530" height="300" as="geometry"/>
+        </mxCell>
+
+        <!-- Layer 2: VM Boundary -->
+        <mxCell id="vmb" value="&lt;b&gt;VM BOUNDARY&lt;/b&gt; — Secure Boot • vTPM • Guest VBS • Network Isolation" style="rounded=1;whiteSpace=wrap;fillColor=#faf5ff;strokeColor=#c4b5fd;strokeWidth=1.8;verticalAlign=top;fontSize=12;fontColor=#6b21a8;" vertex="1" parent="1">
+          <mxGeometry x="120" y="185" width="480" height="235" as="geometry"/>
+        </mxCell>
+
+        <!-- VMs -->
+        <mxCell id="vm1" value="&lt;b&gt;VM 1&lt;/b&gt;&lt;br&gt;Secure Boot&lt;br&gt;vTPM&lt;br&gt;Guest VBS" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#a78bfa;" vertex="1" parent="1">
+          <mxGeometry x="145" y="220" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="vm2" value="&lt;b&gt;VM 2&lt;/b&gt;&lt;br&gt;Secure Boot&lt;br&gt;VLAN 200&lt;br&gt;DHCP Guard" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#a78bfa;" vertex="1" parent="1">
+          <mxGeometry x="295" y="220" width="130" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="vm3" value="&lt;b&gt;VM 3&lt;/b&gt;&lt;br&gt;Secure Boot&lt;br&gt;Port ACLs&lt;br&gt;Router Guard" style="rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#a78bfa;" vertex="1" parent="1">
+          <mxGeometry x="445" y="220" width="130" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Advanced / HGS (dashed) -->
+        <mxCell id="hgs" value="&lt;b&gt;ADVANCED&lt;/b&gt; — Host Guardian Service • Shielded VMs&lt;br&gt;&lt;i&gt;TPM Attestation • Encrypted VM State • Encrypted VHDX&lt;/i&gt;&lt;br&gt;Evaluate against your threat model" style="rounded=1;whiteSpace=wrap;fillColor=#fff7ed;strokeColor=#f97316;strokeWidth=1.8;dashed=1;fontSize=11;fontColor=#c2410c;" vertex="1" parent="1">
+          <mxGeometry x="145" y="320" width="440" height="85" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
