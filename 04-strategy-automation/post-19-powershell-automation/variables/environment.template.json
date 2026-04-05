@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/thisismydemo/hyper-v-renaissance/main/schemas/environment.schema.json",
+  "_comment": "Hyper-V Renaissance - Environment Configuration Template. Copy to environment.<env>.json and customize.",
+  "environment": {
+    "name": "prod",
+    "site": "sea01",
+    "domain": "yourdomain.local",
+    "ouPath": "OU=Hyper-V Hosts,OU=Servers,DC=yourdomain,DC=local",
+    "timeZone": "Eastern Standard Time",
+    "dnsServers": ["10.10.10.5", "10.10.10.6"]
+  },
+  "naming": {
+    "hostPrefix": "hv-host",
+    "clusterPrefix": "cl-hvhost",
+    "vmPrefix": "vm",
+    "switchName": "vsw-set-prod",
+    "csvPrefix": "csv"
+  },
+  "network": {
+    "management": {
+      "vlanId": 10,
+      "subnet": "10.10.10.0/24",
+      "gateway": "10.10.10.1",
+      "prefixLength": 24
+    },
+    "migration": {
+      "vlanId": 20,
+      "subnet": "10.10.20.0/24",
+      "prefixLength": 24
+    },
+    "storage": {
+      "vlanId": 30,
+      "subnet": "10.10.30.0/24",
+      "prefixLength": 24
+    },
+    "vmNetwork": {
+      "vlanId": 100,
+      "subnet": "10.10.100.0/24",
+      "prefixLength": 24
+    }
+  },
+  "storage": {
+    "protocol": "iSCSI",
+    "iscsiTargets": ["10.10.30.100", "10.10.30.101"],
+    "csvAllocationUnit": 65536,
+    "mpioPolicy": "RR",
+    "jumboFrames": true
+  },
+  "cluster": {
+    "name": "cl-hvhost-prod-sea01",
+    "ip": "10.10.10.20",
+    "quorumType": "CloudWitness",
+    "cloudWitness": {
+      "accountName": "",
+      "accessKey": "",
+      "endpoint": "core.windows.net"
+    },
+    "nodes": [
+      {
+        "name": "hv-host-prod-sea01-001",
+        "managementIp": "10.10.10.11",
+        "migrationIp": "10.10.20.11",
+        "storageIp": "10.10.30.11"
+      },
+      {
+        "name": "hv-host-prod-sea01-002",
+        "managementIp": "10.10.10.12",
+        "migrationIp": "10.10.20.12",
+        "storageIp": "10.10.30.12"
+      }
+    ]
+  },
+  "hyperv": {
+    "defaultVmPath": "C:\\ClusterStorage\\Volume1\\VMs",
+    "defaultVhdPath": "C:\\ClusterStorage\\Volume1\\VHDs",
+    "migrationAuth": "Kerberos",
+    "maxLiveMigrations": 4,
+    "maxStorageMigrations": 2,
+    "enableEnhancedSessionMode": true
+  },
+  "security": {
+    "enableSmbEncryption": true,
+    "smbCiphers": "AES_256_GCM, AES_128_GCM",
+    "enableCredentialGuard": true,
+    "enableFirewall": true
+  }
+}

@@ -1,0 +1,116 @@
+# Hyper-V Renaissance — Azure DevOps Pipeline
+# Validates Hyper-V host configuration against desired state
+# Requires: self-hosted agent pool 'HyperV-Mgmt' on management server
+
+trigger:
+  paths:
+    include:
+      - variables/*
+      - modules/*
+      - dsc-config/*
+
+parameters:
+  - name: environment
+    displayName: 'Environment'
+    type: string
+    default: 'prod'
+    values: ['prod', 'dev']
+  - name: remediate
+    displayName: 'Apply remediation if drift detected'
+    type: boolean
+    default: false
+
+variables:
+  configPath: './04-strategy-automation/post-19-powershell-automation/variables'
+  modulePath: './04-strategy-automation/post-19-powershell-automation/modules'
+
+pool:
+  name: 'HyperV-Mgmt'
+
+stages:
+  - stage: Lint
+    jobs:
+      - job: PSScriptAnalyzer
+        steps:
+          - task: PowerShell@2
+            displayName: 'Run PSScriptAnalyzer'
+            inputs:
+              targetType: inline
+              pwsh: true
+              script: |
+                Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+                $results = Invoke-ScriptAnalyzer -Path $(modulePath) -Recurse -Severity Warning
+                if ($results) {
+                  $results | Format-Table -AutoSize
+                  Write-Error "PSScriptAnalyzer found $($results.Count) issues"
+                  exit 1
+                }
+                Write-Host "PSScriptAnalyzer: No issues found"
+
+  - stage: Validate
+    dependsOn: Lint
+    jobs:
+      - job: ValidateHosts
+        steps:
+          - task: PowerShell@2
+            displayName: 'Load configuration and validate hosts'
+            inputs:
+              targetType: inline
+              pwsh: true
+              script: |
+                Import-Module (Join-Path '$(modulePath)' 'HVAutomation/HVAutomation.psd1') -Force
+                $configFile = Join-Path '$(configPath)' 'environment.${{ parameters.environment }}.json'
+                $config = Import-HVConfig -Path $configFile
+
+                $allPassed = $true
+                foreach ($node in $config.cluster.nodes) {
+                  Write-Host "Testing: $($node.name)" -ForegroundColor Cyan
+                  $networkOk = Test-HVNetworkState -Config $config -NodeName $node.name
+                  if ($networkOk) {
+                    Write-Host "  Network: PASS" -ForegroundColor Green
+                  } else {
+                    Write-Host "  Network: DRIFT DETECTED" -ForegroundColor Red
+                    $allPassed = $false
+                  }
+                }
+
+                if (-not $allPassed) {
+                  Write-Error "Configuration drift detected"
+                  exit 1
+                }
+
+          - task: PowerShell@2
+            displayName: 'Run Pester tests'
+            inputs:
+              targetType: inline
+              pwsh: true
+              script: |
+                $testPath = Join-Path '$(modulePath)' 'HVAutomation/Tests'
+                if (Test-Path $testPath) {
+                  $result = Invoke-Pester $testPath -Output Detailed -CI -PassThru
+                  if ($result.FailedCount -gt 0) { exit 1 }
+                }
+
+  - stage: Remediate
+    dependsOn: Validate
+    condition: and(failed(), eq('${{ parameters.remediate }}', 'true'))
+    jobs:
+      - deployment: RemediateDrift
+        environment: '${{ parameters.environment }}'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: PowerShell@2
+                  displayName: 'Apply desired state'
+                  inputs:
+                    targetType: inline
+                    pwsh: true
+                    script: |
+                      Import-Module (Join-Path '$(modulePath)' 'HVAutomation/HVAutomation.psd1') -Force
+                      $configFile = Join-Path '$(configPath)' 'environment.${{ parameters.environment }}.json'
+                      $config = Import-HVConfig -Path $configFile
+                      foreach ($node in $config.cluster.nodes) {
+                        Write-Host "Remediating: $($node.name)"
+                        Set-HVNetworkState -Config $config -NodeName $node.name -Verbose
+                      }

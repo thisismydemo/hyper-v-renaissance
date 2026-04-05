@@ -1,0 +1,137 @@
+# Hyper-V Renaissance — GitHub Actions Pipeline
+# Validates Hyper-V host configuration against desired state
+# Requires: self-hosted runner on management server with PSRemoting to Hyper-V hosts
+
+name: Validate Hyper-V Host Configuration
+
+on:
+  push:
+    paths:
+      - 'variables/**'
+      - 'modules/**'
+      - 'dsc-config/**'
+  pull_request:
+    paths:
+      - 'variables/**'
+      - 'modules/**'
+      - 'dsc-config/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to validate (prod/dev)'
+        required: true
+        default: 'prod'
+        type: choice
+        options: ['prod', 'dev']
+      remediate:
+        description: 'Apply remediation if drift detected'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment || 'prod' }}
+  CONFIG_PATH: './04-strategy-automation/post-19-powershell-automation/variables'
+  MODULE_PATH: './04-strategy-automation/post-19-powershell-automation/modules'
+
+jobs:
+  lint:
+    name: Lint PowerShell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PSScriptAnalyzer
+        shell: pwsh
+        run: Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $results = Invoke-ScriptAnalyzer -Path $env:MODULE_PATH -Recurse -Severity Warning
+          if ($results) {
+            $results | Format-Table -AutoSize
+            Write-Error "PSScriptAnalyzer found $($results.Count) issues"
+            exit 1
+          }
+          Write-Host "PSScriptAnalyzer: No issues found" -ForegroundColor Green
+
+  validate:
+    name: Validate Host Configuration
+    needs: lint
+    runs-on: [self-hosted, windows, hyperv-mgmt]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load configuration
+        shell: pwsh
+        run: |
+          $configFile = Join-Path $env:CONFIG_PATH "environment.$env:ENVIRONMENT.json"
+          if (-not (Test-Path $configFile)) {
+            Write-Error "Configuration file not found: $configFile"
+            exit 1
+          }
+          $config = Get-Content $configFile | ConvertFrom-Json
+          Write-Host "Environment: $($config.environment.name) / $($config.environment.site)"
+          Write-Host "Cluster: $($config.cluster.name)"
+          Write-Host "Nodes: $($config.cluster.nodes.name -join ', ')"
+
+      - name: Import module and test host state
+        shell: pwsh
+        run: |
+          Import-Module (Join-Path $env:MODULE_PATH 'HVAutomation/HVAutomation.psd1') -Force
+          $configFile = Join-Path $env:CONFIG_PATH "environment.$env:ENVIRONMENT.json"
+          $config = Import-HVConfig -Path $configFile
+
+          $allPassed = $true
+          foreach ($node in $config.cluster.nodes) {
+            Write-Host "`nTesting: $($node.name)" -ForegroundColor Cyan
+            try {
+              $networkOk = Test-HVNetworkState -Config $config -NodeName $node.name
+              if ($networkOk) {
+                Write-Host "  Network: PASS" -ForegroundColor Green
+              } else {
+                Write-Host "  Network: DRIFT DETECTED" -ForegroundColor Red
+                $allPassed = $false
+              }
+            }
+            catch {
+              Write-Host "  Network: ERROR - $($_.Exception.Message)" -ForegroundColor Red
+              $allPassed = $false
+            }
+          }
+
+          if (-not $allPassed) {
+            Write-Error "Configuration drift detected on one or more hosts"
+            exit 1
+          }
+          Write-Host "`nAll hosts match desired state" -ForegroundColor Green
+
+      - name: Run Pester tests
+        shell: pwsh
+        run: |
+          $testPath = Join-Path $env:MODULE_PATH 'HVAutomation/Tests'
+          if (Test-Path $testPath) {
+            $result = Invoke-Pester $testPath -Output Detailed -CI -PassThru
+            if ($result.FailedCount -gt 0) { exit 1 }
+          } else {
+            Write-Host "No Pester tests found at $testPath" -ForegroundColor Yellow
+          }
+
+  remediate:
+    name: Remediate Drift
+    needs: validate
+    if: ${{ failure() && github.event.inputs.remediate == 'true' }}
+    runs-on: [self-hosted, windows, hyperv-mgmt]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply desired state
+        shell: pwsh
+        run: |
+          Import-Module (Join-Path $env:MODULE_PATH 'HVAutomation/HVAutomation.psd1') -Force
+          $configFile = Join-Path $env:CONFIG_PATH "environment.$env:ENVIRONMENT.json"
+          $config = Import-HVConfig -Path $configFile
+
+          foreach ($node in $config.cluster.nodes) {
+            Write-Host "Remediating: $($node.name)" -ForegroundColor Yellow
+            Set-HVNetworkState -Config $config -NodeName $node.name -Verbose
+          }
+          Write-Host "Remediation complete" -ForegroundColor Green

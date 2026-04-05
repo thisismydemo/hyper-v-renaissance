@@ -1,0 +1,60 @@
+# Hyper-V Renaissance — GitLab CI Pipeline
+# Validates Hyper-V host configuration against desired state
+# Requires: GitLab Runner (shell executor) on management server
+
+variables:
+  ENVIRONMENT: prod
+  CONFIG_PATH: './04-strategy-automation/post-19-powershell-automation/variables'
+  MODULE_PATH: './04-strategy-automation/post-19-powershell-automation/modules'
+
+stages:
+  - lint
+  - validate
+  - remediate
+
+lint:
+  stage: lint
+  tags: [windows, hyperv-mgmt]
+  script:
+    - pwsh -Command "Install-Module PSScriptAnalyzer -Force -Scope CurrentUser"
+    - pwsh -Command |
+        $results = Invoke-ScriptAnalyzer -Path $env:MODULE_PATH -Recurse -Severity Warning
+        if ($results) { $results | Format-Table; exit 1 }
+        Write-Host 'PSScriptAnalyzer: No issues found'
+
+validate:
+  stage: validate
+  tags: [windows, hyperv-mgmt]
+  needs: [lint]
+  script:
+    - pwsh -Command |
+        Import-Module (Join-Path $env:MODULE_PATH 'HVAutomation/HVAutomation.psd1') -Force
+        $config = Import-HVConfig -Path (Join-Path $env:CONFIG_PATH "environment.$env:ENVIRONMENT.json")
+        $allPassed = $true
+        foreach ($node in $config.cluster.nodes) {
+          Write-Host "Testing: $($node.name)"
+          $networkOk = Test-HVNetworkState -Config $config -NodeName $node.name
+          if (-not $networkOk) { Write-Host "  DRIFT"; $allPassed = $false }
+          else { Write-Host "  PASS" }
+        }
+        if (-not $allPassed) { exit 1 }
+  rules:
+    - changes:
+        - variables/**
+        - modules/**
+        - dsc-config/**
+
+remediate:
+  stage: remediate
+  tags: [windows, hyperv-mgmt]
+  needs: [validate]
+  when: manual
+  allow_failure: false
+  script:
+    - pwsh -Command |
+        Import-Module (Join-Path $env:MODULE_PATH 'HVAutomation/HVAutomation.psd1') -Force
+        $config = Import-HVConfig -Path (Join-Path $env:CONFIG_PATH "environment.$env:ENVIRONMENT.json")
+        foreach ($node in $config.cluster.nodes) {
+          Write-Host "Remediating: $($node.name)"
+          Set-HVNetworkState -Config $config -NodeName $node.name -Verbose
+        }

@@ -1,0 +1,113 @@
+# Hyper-V Renaissance — DSC v3 Configuration
+# Desired state for a Hyper-V cluster node
+# Apply: dsc config set --file hyperv-host.dsc.yaml
+# Test:  dsc config test --file hyperv-host.dsc.yaml
+#
+# Series: The Hyper-V Renaissance
+# Post: 19 - PowerShell Automation Patterns
+
+$schema: https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2024/04/config/document.json
+resources:
+
+  # --- Roles and Features ---
+  - name: Hyper-V Role
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: Hyper-V
+      ensure: Present
+
+  - name: Failover Clustering
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: Failover-Clustering
+      ensure: Present
+
+  - name: Multipath IO
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: Multipath-IO
+      ensure: Present
+
+  - name: Data Center Bridging
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: Data-Center-Bridging
+      ensure: Present
+
+  - name: Hyper-V PowerShell
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: Hyper-V-PowerShell
+      ensure: Present
+
+  - name: RSAT Clustering PowerShell
+    type: Microsoft.Windows/WindowsFeature
+    properties:
+      featureName: RSAT-Clustering-PowerShell
+      ensure: Present
+
+  # --- Services ---
+  - name: iSCSI Initiator Service
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: MSiSCSI
+      startupType: Automatic
+      state: Running
+
+  - name: Hyper-V VMMS Service
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: vmms
+      startupType: Automatic
+      state: Running
+
+  # --- Security Services (should remain running) ---
+  - name: Windows Defender Service
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: WinDefend
+      startupType: Automatic
+      state: Running
+
+  - name: Windows Firewall Service
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: MpsSvc
+      startupType: Automatic
+      state: Running
+
+  # --- Disable Unnecessary Services ---
+  - name: Disable Computer Browser
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: Browser
+      startupType: Disabled
+      state: Stopped
+
+  - name: Disable LLTD Mapper
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: lltdsvc
+      startupType: Disabled
+      state: Stopped
+
+  - name: Disable LLTD Responder
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: rspndr
+      startupType: Disabled
+      state: Stopped
+
+  - name: Disable ICS
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: SharedAccess
+      startupType: Disabled
+      state: Stopped
+
+  - name: Disable WLAN
+    type: Microsoft.Windows/Service
+    properties:
+      serviceName: WlanSvc
+      startupType: Disabled
+      state: Stopped
