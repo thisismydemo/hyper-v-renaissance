@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: hyperv-hosts
+    static_configs:
+      - targets:
+          - hv-host-prod-sea01-001:9182
+          - hv-host-prod-sea01-002:9182
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+    metric_relabel_configs:
+      - source_labels: [collector]
+        regex: hyperv
+        action: keep

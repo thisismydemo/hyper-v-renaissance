@@ -1,0 +1,5 @@
+Technology,RPO,RTO,Distance,OperationalComplexity,BestFit
+Hyper-V Replica,30 seconds to 15 minutes,Minutes,Unlimited,Low,VM-level disaster recovery without shared storage
+Storage Replica synchronous,Zero,Seconds to minutes,Metro distance,Medium,Zero-loss volume replication with low-latency links
+Storage Replica asynchronous,Near-zero to minutes,Minutes,Long distance,Medium,Long-distance site protection
+SAN replication,Vendor dependent,Vendor dependent,Vendor dependent,Medium to high,Existing enterprise array investment

@@ -1,0 +1,12 @@
+Area,Question,VMware / VCF Path,Azure Local Path,Hyper-V Path,Notes
+Commercial Fit,Does the licensing model match our budget posture?,,,,
+Commercial Fit,Are we paying for bundled capabilities we will actually use?,,,,
+Hardware Fit,Can we keep our existing hosts?,,,,
+Hardware Fit,Can we keep our existing SAN or storage design?,,,,
+Hybrid Fit,Do we need Azure-centric operations as the default control plane?,,,,
+Hybrid Fit,Can Azure services be added selectively instead of platform-first?,,,,
+Operations,Do our admins already have the right skills for this platform?,,,,
+Operations,Does the management stack match our scale and complexity?,,,,
+Automation,Can we automate this cleanly with our current tooling?,,,,
+Risk,Does this option reduce platform risk or just replace one dependency with another?,,,,
+Outcome,Which option best preserves existing investment while meeting requirements?,,,,

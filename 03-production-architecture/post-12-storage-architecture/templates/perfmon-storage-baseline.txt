@@ -1,0 +1,9 @@
+\LogicalDisk(*)\Avg. Disk sec/Read
+\LogicalDisk(*)\Avg. Disk sec/Write
+\LogicalDisk(*)\Disk Reads/sec
+\LogicalDisk(*)\Disk Writes/sec
+\SMB Client Shares(*)\Avg. Write Queue Length
+\SMB Client Shares(*)\Avg. Read Queue Length
+\Hyper-V Virtual Storage Device(*)\Latency
+\Hyper-V Virtual Storage Device(*)\Read Operations/sec
+\Hyper-V Virtual Storage Device(*)\Write Operations/sec

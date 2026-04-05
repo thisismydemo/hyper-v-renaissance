@@ -1,0 +1,5 @@
+EnvironmentSize,PrimaryTool,SecondaryTool,WhenToUse,WhenNotToUse
+1-4 hosts,WAC,PowerShell,Small and medium clusters with direct admin ownership,When you need self-service or fabric-wide orchestration
+5-20 hosts,WAC,PowerShell plus SCOM,Operational visibility without a large System Center footprint,When you need library services and Dynamic Optimization
+20+ hosts,SCVMM,WAC plus PowerShell,Large estates with template governance and delegated operations,When the estate is too small to justify the System Center overhead
+Hybrid estate,SCVMM plus Azure Arc,WAC plus PowerShell,When Azure control plane workflows and RBAC matter,When you only need local host administration

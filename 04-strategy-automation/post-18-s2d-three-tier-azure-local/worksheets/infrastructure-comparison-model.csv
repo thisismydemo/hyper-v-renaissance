@@ -1,0 +1,7 @@
+Attribute,S2D,Three-Tier SAN,Azure Local,Notes
+Reuse existing SAN,No,Yes,No or limited,Three-tier usually wins if you already own enterprise storage
+Reuse existing compute,Maybe,Yes,Maybe,Validate hardware support in every case
+Platform subscription required,No,No,Yes,Azure Local pricing and guest rights need current validation
+Independent storage scaling,Limited,Yes,Limited,Three-tier keeps compute and storage decoupled
+Hyperconverged simplicity,Yes,No,Yes,S2D and Azure Local are stronger here
+Best fit,New hyperconverged builds,Cost-conscious reuse and SAN-first designs,Azure-managed HCI with specific service needs,Context matters more than vendor messaging

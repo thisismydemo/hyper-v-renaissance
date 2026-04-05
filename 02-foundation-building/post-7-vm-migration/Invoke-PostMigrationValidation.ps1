@@ -60,7 +60,6 @@ begin {
 
         # 2. Integration Services
         $IS = Get-VMIntegrationService -VMName $Name
-        $isFail = $IS | Where-Object { $_.Enabled -and $_.PrimaryStatusDescription -ne "OK" }
         foreach ($svc in $IS) {
             if (-not $svc.Enabled) { continue }
             $st = if ($svc.PrimaryStatusDescription -eq "OK") { "PASS" } else { "WARN" }

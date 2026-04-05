@@ -1,0 +1,7 @@
+Service,MonthlyCostEstimate,IncludedWithOtherPlans,PrimaryBenefit,UseOnlyIf
+Azure Update Manager,5 per server,Included with Defender for Servers Plan 2 or eligible ESU scenarios,Patch orchestration and compliance,You want centralized patching
+Azure Policy Guest Configuration,6 per server,Included with Defender for Servers Plan 2,Configuration compliance and drift enforcement,You need enforceable configuration governance
+Defender for Servers Plan 1,5 per server,No,Endpoint protection baseline,You need cloud-managed server security
+Defender for Servers Plan 2,15 per server,Includes Update Manager and Guest Configuration,Broader security and vulnerability capabilities,You want the bundled value and can justify the spend
+Azure Monitor,Usage based,No,Centralized logs and alerting,You want Azure-native monitoring workflows
+Azure Backup,Usage based,No,Off-site backup and vault retention,Azure-based protection is part of the strategy

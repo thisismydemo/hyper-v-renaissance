@@ -154,7 +154,7 @@ if (-not $VMName) {
         MemoryStartupBytes = [long]($MemoryGB * 1GB)
         NoVHD              = $true
     }
-    $newVM = New-VM @vmParams
+    New-VM @vmParams | Out-Null
     Set-VM -Name $VMName -ProcessorCount $CPUCount -DynamicMemory `
            -MemoryMinimumBytes ([long]($MemoryGB * 1GB)) `
            -MemoryMaximumBytes ([long]($MemoryGB * 4GB))
@@ -169,7 +169,6 @@ if (-not $VMName) {
     # Gen 2 firmware: set DVD/SCSI boot order with OS disk first, disable Secure Boot
     # (Secure Boot can be re-enabled once guest boots successfully)
     if ($Generation -eq 2) {
-        $firmware = Get-VMFirmware -VMName $VMName
         Set-VMFirmware -VMName $VMName `
             -SecureBoot Off `
             -BootOrder (Get-VMHardDiskDrive -VMName $VMName)

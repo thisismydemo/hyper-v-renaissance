@@ -1,0 +1,2 @@
+ClusterName,CurrentNodes,PlannedNodes,CurrentVMs,PlannedVMs,AverageVMRAMGB,PeakUtilizationTarget,Notes
+cl-hvhost-prod-sea01,4,6,180,260,8,70,

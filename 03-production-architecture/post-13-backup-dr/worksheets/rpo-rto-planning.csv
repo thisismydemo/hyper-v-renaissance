@@ -1,0 +1,5 @@
+WorkloadTier,Application,RPOMinutes,RTOMinutes,BackupFrequency,RestorePriority,Notes
+Tier0,Domain Services,15,60,Hourly,Highest,
+Tier1,SQL Line of Business,15,120,Hourly,High,
+Tier2,File Services,60,240,Every 4 hours,Medium,
+Tier3,Dev Test,1440,1440,Daily,Low,

@@ -1,0 +1,6 @@
+Solution,Hyper-V Agentless,RCT Support,Application Aware,Instant Recovery,SAN Snapshot Integration,Notes
+Veeam,Yes,Yes,Yes,Yes,Varies by edition,Strong default choice for mixed estates
+Commvault,Yes,Yes,Yes,Yes,Yes,Good fit where array integration is important
+Rubrik,Yes,Yes,Yes,Yes,Yes,Simplified appliance-led operations
+HYCU,Yes,Yes,Yes,Varies,Varies,Review current Hyper-V feature depth before standardizing
+Azure Backup,Via MABS,Different path,Yes,No,No,Useful when Azure alignment matters more than instant recovery

@@ -1,0 +1,6 @@
+Scenario,PreferredProtocol,Why,Caveat
+Existing enterprise SAN with FC fabric,Fibre Channel,Leverages existing storage and operational model,Requires fabric and HBA discipline
+Existing enterprise SAN with converged networking,iSCSI,Simpler reuse of Ethernet investment,Needs careful VLAN and MPIO design
+File-based storage with SMB stack,SMB3,Good fit for specialized SMB-backed designs,Requires strong network design and validation
+Need lowest host CPU overhead with existing array,External SAN,Storage services stay on dedicated controllers,Array platform cost remains a factor
+Need hyperconverged simplicity and are buying new nodes,S2D or Azure Local,Tight integration and local performance,Hardware standardization and platform cost can be higher

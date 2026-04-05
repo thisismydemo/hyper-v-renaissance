@@ -14,8 +14,8 @@
     Repository: https://github.com/thisismydemo/hyper-v-renaissance
 
 .PARAMETER Phase
-    Which phase to run. Default is "All". Options: All, 1, 2, 3, 4, 5, 6, 7
-    Phases 1 and 4 include reboots. Run them interactively or via a staged deployment.
+    Which phase to run. Default is "All". Options: All, 1, 1b, 2, 3, 4, 4b, 5, 6, 7
+    Phases 1, 2, and 4 can trigger or require reboots. Run them interactively or via a staged deployment.
 
 .EXAMPLE
     .\Deploy-HyperVNode.ps1
@@ -24,7 +24,7 @@
 
 [CmdletBinding()]
 param(
-    [ValidateSet("All","1","2","3","4","5","6","7")]
+    [ValidateSet("All","1","1b","2","3","4","4b","5","6","7")]
     [string]$Phase = "All"
 )
 
@@ -126,6 +126,7 @@ if ($Phase -in "All","2") {
     )
 
     Write-Host "Installing features: $($Features -join ', ')..." -ForegroundColor Yellow
+    Write-Host "This phase uses Install-WindowsFeature -Restart and can reboot the host automatically." -ForegroundColor Gray
     Install-WindowsFeature -Name $Features -IncludeManagementTools -Restart
 
     # After reboot, verify

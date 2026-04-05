@@ -35,6 +35,8 @@ post-19-powershell-automation/
 4. Test current state: `Test-HVNetworkState -Config (Import-HVConfig -Path ./variables/environment.prod.json)`
 5. Apply desired state: `Set-HVNetworkState -Config (Import-HVConfig -Path ./variables/environment.prod.json)`
 
+For a fuller operator run order, start with `EXECUTION-WALKTHROUGH.md` in this folder.
+
 ## Requirements
 
 - PowerShell 7.4+ LTS

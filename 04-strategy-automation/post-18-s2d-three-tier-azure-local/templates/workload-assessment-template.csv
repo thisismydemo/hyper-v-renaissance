@@ -1,0 +1,6 @@
+Workload,LatencySensitivity,NeedsSharedExternalStorage,PrefersComputeStorageSeparation,NeedsAzureLocalExclusiveFeature,RecommendedArchitecture,Notes
+SQL OLTP,High,Often,Often,No,,
+General purpose VM estate,Medium,Varies,Often,No,,
+VDI,High,Varies,Varies,Sometimes,,
+Edge branch office,Medium,Rarely,Rarely,Sometimes,,
+AKS or AVD-specific requirement,Medium,Rarely,Rarely,Yes,,
