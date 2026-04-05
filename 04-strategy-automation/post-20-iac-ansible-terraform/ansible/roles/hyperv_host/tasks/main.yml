@@ -1,0 +1,47 @@
+---
+- name: Ensure management script folder exists
+  ansible.windows.win_file:
+    path: C:\ProgramData\HyperVRenaissance
+    state: directory
+
+- name: Install required Windows features
+  ansible.windows.win_feature:
+    name: "{{ hyperv_required_features }}"
+    state: present
+    include_management_tools: true
+  register: hyperv_feature_install
+
+- name: Reboot if feature installation requires it
+  ansible.windows.win_reboot:
+    reboot_timeout: 3600
+  when: hyperv_feature_install.reboot_required
+
+- name: Ensure iSCSI Initiator service is running
+  ansible.windows.win_service:
+    name: "{{ hyperv_iscsi_service_name }}"
+    start_mode: auto
+    state: started
+
+- name: Copy Hyper-V IaC host initialization script
+  ansible.windows.win_copy:
+    src: "{{ playbook_dir }}/../../scripts/Initialize-HyperVIacHost.ps1"
+    dest: "{{ hyperv_management_script_path }}"
+
+- name: Apply Hyper-V IaC host baseline
+  ansible.windows.win_powershell:
+    script: |
+      & "{{ hyperv_management_script_path }}" \
+        -HostName "{{ hyperv_host_name_override }}" \
+        -TimeZoneId "{{ hyperv_time_zone_id }}" \
+        -SwitchName "{{ hyperv_switch_name }}" \
+        -NetAdapterNamesJson '{{ hyperv_switch_net_adapter_names | to_json }}' \
+        -MinimumBandwidthMode "{{ hyperv_switch_minimum_bandwidth_mode }}" \
+        {{ hyperv_configure_winrm_https | ternary('-ConfigureWinRmHttps', '') }}
+  register: hyperv_iac_host_result
+
+- name: Reboot if host initialization requires it
+  ansible.windows.win_reboot:
+    reboot_timeout: 3600
+  when:
+    - hyperv_iac_host_result.output is defined
+    - hyperv_iac_host_result.output | join(' ') is search('RebootRequired.*True')

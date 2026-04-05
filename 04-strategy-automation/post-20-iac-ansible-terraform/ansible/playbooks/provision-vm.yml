@@ -1,0 +1,39 @@
+---
+- name: Provision lab VMs on Hyper-V hosts
+  hosts: hyperv_hosts
+  gather_facts: false
+  tasks:
+    - name: Ensure VM and VHD parent folders exist
+      ansible.windows.win_file:
+        path: "{{ item }}"
+        state: directory
+      loop: "{{ hyperv_vm_definitions | map(attribute='path') | list + (hyperv_vm_definitions | map(attribute='vhd_path') | map('regex_replace', '\\\\[^\\\\]+$', '') | list) }}"
+
+    - name: Provision virtual machines using PowerShell on the Hyper-V host
+      ansible.windows.win_powershell:
+        script: |
+          $vmName = "{{ item.name }}"
+          $vm = Get-VM -Name $vmName -ErrorAction SilentlyContinue
+
+          if (-not $vm) {
+              if (-not (Test-Path -LiteralPath "{{ item.vhd_path }}")) {
+                  New-VHD -Path "{{ item.vhd_path }}" -SizeBytes {{ item.vhd_size_bytes }} -Dynamic | Out-Null
+              }
+
+              New-VM -Name $vmName -Generation {{ item.generation }} -MemoryStartupBytes {{ item.memory_startup_bytes }} -Path "{{ item.path }}" -VHDPath "{{ item.vhd_path }}" -SwitchName "{{ item.switch_name }}" | Out-Null
+              Set-VMProcessor -VMName $vmName -Count {{ item.processor_count }} | Out-Null
+
+              if ({{ item.dynamic_memory | ternary('$true', '$false') }}) {
+                  Set-VMMemory -VMName $vmName -DynamicMemoryEnabled $true -MinimumBytes {{ item.memory_minimum_bytes }} -StartupBytes {{ item.memory_startup_bytes }} -MaximumBytes {{ item.memory_maximum_bytes }} | Out-Null
+              }
+              else {
+                  Set-VMMemory -VMName $vmName -DynamicMemoryEnabled $false -StartupBytes {{ item.memory_startup_bytes }} | Out-Null
+              }
+
+              Write-Output "changed"
+          }
+          else {
+              Write-Output "unchanged"
+          }
+      loop: "{{ hyperv_vm_definitions }}"
+      register: hyperv_vm_provision

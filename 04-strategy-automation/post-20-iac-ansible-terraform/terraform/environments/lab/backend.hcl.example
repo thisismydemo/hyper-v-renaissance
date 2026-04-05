@@ -1,0 +1,14 @@
+bucket         = "terraform-state-prod"
+key            = "hyperv/post-20/lab/terraform.tfstate"
+region         = "us-east-1"
+encrypt        = true
+use_lockfile   = true
+use_path_style = true
+
+endpoints = {
+  s3 = "https://minio.example.internal"
+}
+
+skip_credentials_validation = true
+skip_region_validation      = true
+skip_requesting_account_id  = true

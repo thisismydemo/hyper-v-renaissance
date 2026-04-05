@@ -1,0 +1,29 @@
+stages:
+  - lint
+  - validate
+
+variables:
+  ANSIBLE_DIR: "04-strategy-automation/post-20-iac-ansible-terraform/ansible"
+  TERRAFORM_DIR: "04-strategy-automation/post-20-iac-ansible-terraform/terraform/environments/lab"
+
+ansible_validate:
+  stage: lint
+  tags:
+    - self-hosted
+  script:
+    - python -m pip install --upgrade pip
+    - python -m pip install ansible pywinrm pypsrp ansible-lint
+    - cd "$ANSIBLE_DIR"
+    - ansible-galaxy collection install -r requirements.yml
+    - ansible-lint playbooks
+    - ansible-playbook -i inventory/hosts.ini.example playbooks/configure-hyperv-host.yml --syntax-check
+
+terraform_validate:
+  stage: validate
+  tags:
+    - self-hosted
+  script:
+    - cd "$TERRAFORM_DIR"
+    - terraform init -backend=false
+    - terraform fmt -check -recursive ../..
+    - terraform validate

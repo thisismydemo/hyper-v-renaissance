@@ -1,0 +1,6 @@
+---
+- name: Configure Hyper-V hosts for IaC operations
+  hosts: hyperv_hosts
+  gather_facts: false
+  roles:
+    - role: hyperv_host

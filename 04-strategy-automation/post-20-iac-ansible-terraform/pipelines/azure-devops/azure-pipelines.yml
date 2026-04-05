@@ -1,0 +1,41 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - 04-strategy-automation/post-20-iac-ansible-terraform/*
+      - 04-strategy-automation/post-20-iac-ansible-terraform/**
+
+pool:
+  name: SelfHosted
+
+stages:
+  - stage: ValidateAnsible
+    jobs:
+      - job: ansible_validate
+        steps:
+          - checkout: self
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.12"
+          - script: |
+              python -m pip install --upgrade pip
+              python -m pip install ansible pywinrm pypsrp ansible-lint
+              cd 04-strategy-automation/post-20-iac-ansible-terraform/ansible
+              ansible-galaxy collection install -r requirements.yml
+              ansible-lint playbooks
+              ansible-playbook -i inventory/hosts.ini.example playbooks/configure-hyperv-host.yml --syntax-check
+            displayName: Validate Ansible content
+
+  - stage: ValidateTerraform
+    jobs:
+      - job: terraform_validate
+        steps:
+          - checkout: self
+          - script: |
+              cd 04-strategy-automation/post-20-iac-ansible-terraform/terraform/environments/lab
+              terraform init -backend=false
+              terraform fmt -check -recursive ../..
+              terraform validate
+            displayName: Validate Terraform content

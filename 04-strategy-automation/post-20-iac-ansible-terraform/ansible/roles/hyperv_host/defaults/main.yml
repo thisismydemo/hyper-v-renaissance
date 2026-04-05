@@ -1,0 +1,10 @@
+---
+hyperv_host_name_override: ""
+hyperv_time_zone_id: "UTC"
+hyperv_required_features: []
+hyperv_iscsi_service_name: MSiSCSI
+hyperv_switch_name: ""
+hyperv_switch_net_adapter_names: []
+hyperv_switch_minimum_bandwidth_mode: Weight
+hyperv_configure_winrm_https: true
+hyperv_management_script_path: C:\ProgramData\HyperVRenaissance\Initialize-HyperVIacHost.ps1

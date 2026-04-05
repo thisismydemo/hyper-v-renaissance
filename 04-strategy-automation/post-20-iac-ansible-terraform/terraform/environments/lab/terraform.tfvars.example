@@ -1,0 +1,26 @@
+hyperv_user     = "svc-terraform-hyperv"
+hyperv_password = "REPLACE_ME"
+hyperv_host     = "10.10.10.11"
+
+switch_name = "vsw-lab-iac"
+switch_type = "Internal"
+
+vm_name        = "vm-web-lab-001"
+vm_path        = "C:\\HyperV\\VMs"
+vhd_path       = "C:\\HyperV\\VHDs\\vm-web-lab-001.vhdx"
+vhd_size_bytes = 68719476736
+
+processor_count      = 2
+use_static_memory    = false
+memory_startup_bytes = 4294967296
+memory_minimum_bytes = 2147483648
+memory_maximum_bytes = 8589934592
+
+guest_bootstrap_enabled  = false
+guest_bootstrap_host     = "10.10.50.21"
+guest_bootstrap_user     = "Administrator"
+guest_bootstrap_password = "REPLACE_ME"
+guest_computer_name      = "vm-web-lab-001"
+guest_time_zone_id       = "UTC"
+guest_feature_names      = ["Web-Server"]
+guest_directory_paths    = ["C:\\App", "C:\\Logs"]

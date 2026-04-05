@@ -1,0 +1,31 @@
+---
+hyperv_host_name_override: ""
+hyperv_time_zone_id: "UTC"
+hyperv_required_features:
+  - Hyper-V
+  - Hyper-V-PowerShell
+  - Failover-Clustering
+  - Multipath-IO
+  - Data-Center-Bridging
+
+hyperv_iscsi_service_name: MSiSCSI
+
+hyperv_switch_name: vsw-set-prod
+hyperv_switch_net_adapter_names:
+  - NIC1
+  - NIC2
+hyperv_switch_minimum_bandwidth_mode: Weight
+hyperv_configure_winrm_https: true
+
+hyperv_vm_definitions:
+  - name: vm-web-lab-001
+    generation: 2
+    path: C:\HyperV\VMs
+    vhd_path: C:\HyperV\VHDs\vm-web-lab-001.vhdx
+    vhd_size_bytes: 68719476736
+    switch_name: vsw-set-prod
+    processor_count: 2
+    memory_startup_bytes: 4294967296
+    dynamic_memory: true
+    memory_minimum_bytes: 2147483648
+    memory_maximum_bytes: 8589934592

@@ -1,0 +1,37 @@
+name: terraform-plan-apply
+
+on:
+  pull_request:
+    paths:
+      - "04-strategy-automation/post-20-iac-ansible-terraform/terraform/**"
+      - "04-strategy-automation/post-20-iac-ansible-terraform/scripts/**"
+  workflow_dispatch:
+
+jobs:
+  plan:
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: 04-strategy-automation/post-20-iac-ansible-terraform/terraform/environments/lab
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+
+      - name: Terraform format check
+        run: terraform fmt -check -recursive ../..
+
+      - name: Terraform init without backend
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        env:
+          TF_VAR_hyperv_user: ${{ secrets.HYPERV_USER }}
+          TF_VAR_hyperv_password: ${{ secrets.HYPERV_PASSWORD }}
+        run: terraform plan -var-file=terraform.tfvars

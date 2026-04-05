@@ -1,0 +1,14 @@
+[hyperv_hosts]
+hv-host-prod-sea01-001 ansible_host=10.10.10.11
+hv-host-prod-sea01-002 ansible_host=10.10.10.12
+
+[hyperv_hosts:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_winrm_transport=kerberos
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_message_encryption=auto
+
+[hyperv_hosts_secure]
+hv-host-prod-sea01-001
+hv-host-prod-sea01-002
