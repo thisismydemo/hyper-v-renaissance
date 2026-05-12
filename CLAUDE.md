@@ -2,14 +2,15 @@
 
 ## What this repo is
 
-Repository in the thisismydemo organization, managed under the HCS platform engineering standard.
+This repository contains all scripts, templates, diagrams, checklists, and supporting resources for the blog series:
 
 ---
 
 ## ADO project details
 
 - **ADO org:** https://dev.azure.com/hybridcloudsolutions
-- **ADO project:** thisismydemo
+- **ADO project:** This Is My Demo
+- **Area path:** Platform Engineering\Onboarding
 - **Work item format:** `AB#<id>` in commit messages and PR descriptions
 
 ---
@@ -28,7 +29,7 @@ This repo follows all HCS platform standards defined in the Platform Engineering
 | Claude Code | [docs/standards/claude-code.md](https://dev.azure.com/hybridcloudsolutions/Platform%20Engineering/_git/Platform%20Engineering?path=/docs/standards/claude-code.md) |
 
 Key rules:
-- All scripts: PowerShell 7+ only. `#Requires -Version 7.0`, `Set-StrictMode -Version Latest`, `\Stop = 'Stop'`.
+- All scripts: PowerShell 7+ only. `#Requires -Version 7.0`, `Set-StrictMode -Version Latest`, ` $ErrorActionPreference = 'Stop'`.
 - All docs: Markdown only. No Word documents in any repo.
 - Commit format: `type(scope): short description` — types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`
 - No secrets, tokens, or credentials committed to any file.
@@ -44,9 +45,64 @@ Key rules:
 | Azure login | kris@hybridsolutions.cloud |
 | Key Vault | kv-hcs-vault-01 |
 
-Load environment before starting a session:
+### Environment variables expected
+
+| Variable | Source | Purpose |
+|---|---|---|
+| `GITHUB_TOKEN` | kv-hcs-vault-01 via Load-HCSEnvironment.ps1 | GitHub CLI and git operations |
+| `AZURE_DEVOPS_EXT_PAT` | kv-hcs-vault-01 via Load-HCSEnvironment.ps1 | ADO CLI (`az boards`, `az devops`) |
+Load before starting a session:
 ```powershell
 . E:\git\platform\scripts\Load-HCSEnvironment.ps1
+```
+
+### Build and test commands
+
+```
+# No standard build commands detected
+```
+
+---
+
+## Repo structure
+
+```
+hyper-v-renaissance/
+├── .claude/
+    └── settings.json
+├── 01-case-for-change/
+    ├── post-1-welcome/
+    ├── post-2-tco/
+    ├── post-3-myth-old-tech/
+    └── post-4-reuse-vmware/
+├── 02-foundation-building/
+    ├── post-5-cluster-host/
+    ├── post-6-storage-integration/
+    ├── post-7-vm-migration/
+    └── post-8-poc-cluster/
+├── 03-production-architecture/
+    ├── post-10-security/
+    ├── post-11-management-tools/
+    ├── post-12-storage-architecture/
+    ├── post-13-backup-dr/
+    └── post-14-multi-site-resilience/
+├── 04-strategy-automation/
+    ├── post-17-hybrid-without-handcuffs/
+    ├── post-18-s2d-three-tier-azure-local/
+    ├── post-19-powershell-automation/
+    └── post-20-iac-ansible-terraform/
+├── 05-series-wrap-up/
+    └── post-21-what-was-under-your-nose-all-along/
+├── diagrams/
+    ├── azure-services-comparison.drawio
+    ├── backup-architecture.drawio
+    ├── cluster-set-architecture.drawio
+    ├── csv-io-architecture.drawio
+    └── csv-troubleshooting-tree.drawio
+├── references/
+    └── vcf/
+├── CLAUDE.md
+└── README.md
 ```
 
 ---
@@ -59,11 +115,21 @@ Load environment before starting a session:
 - `git add`, `git commit`, `git push`
 - `gh issue`, `gh pr`, `gh run` CLI commands
 
+
 **Always confirm before:**
-- Any operation that modifies Azure resources
-- Installing or upgrading dependencies
+- Creating or deleting Azure resources
+- Any `az` CLI write operation that modifies Azure state
 - Running destructive operations
 - Making API calls to external services
+
+
+---
+
+## Subagents available in this repo
+
+- `hyper-v-renaissance-engineer` (model: sonnet) — Expert in `hyper-v-renaissance`: deep knowledge of this repo's structure, conventions, and development workflow.
+
+User-level agents (available in every repo session): `triage-lookup`, `markdown-prose-editor`, `azurelocal-domain-expert`, `mkdocs-material-doctor`, `turner-module-scaffold-engineer`, `mms-2026-demo-presenter`.
 
 ---
 
